@@ -1,0 +1,26 @@
+name: Bot Telegram
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"  # Restart bot setiap 6 jam
+  workflow_dispatch:  # Bisa dijalankan manual
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Start Bot
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        run: node bot.js
